@@ -1,7 +1,7 @@
 <?php
 /**
-* Plugin Name: Gravity Forms Atom42
-* Description: Gravity Forms customisation for atom42
+* Plugin Name: Gravity Forms Custom Fields
+* Description: Adds custom fields for the Gravity Forms plugin
 * Version: 1.1.1
 * Requires at least: 3.8
 * Tested up to: 6.0
