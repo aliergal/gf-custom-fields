@@ -13,7 +13,6 @@
 // Exit if accessed directly
 if( !defined( 'ABSPATH' ) ) exit;
 
-$plugin_dir = plugin_dir_path( __DIR__ );
 //Enqueue scripts and styles for the plugin
 function load_atom42_scripts($hook) {
  
