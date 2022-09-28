@@ -1,8 +1,8 @@
 <?php
 if (class_exists('GF_Field')) {
-	class GF_UTM_Fields extends GF_Field {
+	class GF_Referrer_Field extends GF_Field {
 
-        public $type = 'utm_parameters';
+        public $type = 'referrer';
         
         /**
          * Return the field title.
@@ -11,7 +11,7 @@ if (class_exists('GF_Field')) {
          * @return string
          */
         public function get_form_editor_field_title() {
-            return esc_attr__( 'UTM Parameters', 'gravityforms' );
+            return esc_attr__( 'Referrer', 'gravityforms' );
         }
 
 
@@ -23,7 +23,7 @@ if (class_exists('GF_Field')) {
          * @return string
          */
         public function get_form_editor_field_description() {
-            return esc_attr__( 'Places hidden fields to capture UTM parameters.', 'gravityforms' );
+            return esc_attr__( 'Places hidden fields to capture the referrer.', 'gravityforms' );
         }
 
 
@@ -95,24 +95,16 @@ if (class_exists('GF_Field')) {
             $field_id = intval( $this->id );
             
             
-            $utm_source_markup = '<input class="gf_utm_source" type="hidden" name="input_' . $field_id . '.1" id="input_' . $form_id . '_' . $field_id . '_1">';
-            $utm_medium_markup = '<input class="gf_utm_medium" type="hidden" name="input_' . $field_id . '.2" id="input_' . $form_id . '_' . $field_id . '_2">';
-            $utm_campaign_markup = '<input class="gf_utm_campaign" type="hidden" name="input_' . $field_id . '.3" id="input_' . $form_id . '_' . $field_id . '_3">';
-            $utm_content_markup = '<input class="gf_utm_content" type="hidden" name="input_' . $field_id . '.4" id="input_' . $form_id . '_' . $field_id . '_4">';
-            $utm_term_markup = '<input class="gf_utm_term" type="hidden" name="input_' . $field_id . '.5" id="input_' . $form_id . '_' . $field_id . '_5">';
+            $referrer_markup = '<input class="gf_referrer" type="hidden" name="input_' . $field_id . '" id="input_' . $form_id . '_' . $field_id . '">';
             
     
 
             
             if($is_form_editor){
                 return '<div class="gf-html-container"><span class="gf_blockheader">
-                <i class="fa fa-eye-slash fa-lg"></i> UTM Parameters</span><span>This is a content placeholder. UTM Parameters content is not displayed in the form admin. Preview this form and check page source to see these parameters</span></div>';
+                <i class="fa fa-eye-slash fa-lg"></i> Referrer</span><span>This is a content placeholder. Referrer content is not displayed in the form admin. Preview this form and check page source to see the referrer field</span></div>';
             }else{
-                return "{$utm_source_markup}
-                        {$utm_medium_markup}
-                        {$utm_campaign_markup}
-                        {$utm_content_markup}
-                        {$utm_term_markup}";
+                return $referrer_markup;
             }
             
         }
@@ -135,34 +127,20 @@ if (class_exists('GF_Field')) {
     
             // set the default field label for the field
             $script = sprintf( "function SetDefaultValues_%s(field) {
-            field.inputs = [
-                new Input(field.id + '.1', '%s'),
-                new Input(field.id + '.2', '%s'),
-                new Input(field.id + '.3', '%s'),
-                new Input(field.id + '.4', '%s'),
-                new Input(field.id + '.5', '%s')
-            ];
-            }", $this->type, 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term' ) . PHP_EOL;
+            field.inputs = [new Input(field.id, '%s')];
+            }", $this->type, $this->get_form_editor_field_title(), 'referrer' ) . PHP_EOL;
     
             return $script;
         }
     
         public function get_value_entry_detail( $value, $currency = '', $use_text = false, $format = 'html', $media = 'screen' ) {
             if ( is_array( $value ) ) {
-                $utm_source = trim( rgget( $this->id . '.1', $value ) );
-                $utm_medium  = trim( rgget( $this->id . '.2', $value ) );
-                $utm_campaign = trim( rgget( $this->id . '.3', $value ) );
-                $utm_content = trim( rgget( $this->id . '.4', $value ) );
-                $utm_term = trim( rgget( $this->id . '.5', $value ) );
+                $referrer = trim( rgget( $this->id, $value ) );
     
-                $return = "<b>Source:</b> " . $utm_source . '<br>';
-                $return .= ! empty( $return ) && ! empty( $utm_medium ) ? " <b>Medium:</b> $utm_medium <br>" : $utm_medium;
-                $return .= ! empty( $return ) && ! empty( $utm_campaign ) ? " <b>Campaign:</b> $utm_campaign <br>" : $utm_campaign;
-                $return .= ! empty( $return ) && ! empty( $utm_content ) ? " <b>Content:</b> $utm_content <br>" : $utm_content;
-                $return .= ! empty( $return ) && ! empty( $utm_term ) ? " <b>Term:</b> $utm_term <br>" : $utm_term;
+                $return = $referrer;
     
             } else {
-                $return = 'No UTM values submitted!';
+                $return = 'No referrer value submitted!';
             }
     
             if ( $format === 'html' ) {
@@ -174,5 +152,5 @@ if (class_exists('GF_Field')) {
     
     }
     
-    GF_Fields::register( new GF_UTM_Fields() );
+    GF_Fields::register( new GF_Referrer_Field() );
 }

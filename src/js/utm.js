@@ -15,6 +15,28 @@ jQuery(document).ready(function($){
     var utm_content = getParameterByName('utm_content');
     var utm_term = getParameterByName('utm_term');
 
+    var referrer = '';
+    var refurl = document.referrer;
+
+
+    if(utm_medium == 'cpc'){
+        referrer = 'Paid Search';
+    }else if(utm_medium == 'email'){
+        referrer = 'Email'
+    }else if(refurl.indexOf("google.com") > -1 || refurl.indexOf("bing.com") > -1 || refurl.indexOf("yahoo.com") > -1 ){
+        referrer = 'Organic search';
+    }else if(refurl.indexOf('facebook.com') > -1){
+        referrer = 'Facebook';
+    }else if(refurl.indexOf('linkedin.com') > -1){
+        referrer = 'LinkedIn';
+    }else if(refurl.indexOf('twitter.com') > -1){
+        referrer = 'Twitter';
+    }else if(refurl && refurl != ""){
+        referrer = 'Online referrals';
+    }else{
+        referrer = 'Direct search';
+    }
+
     //Set them in the local storage
     if(utm_source) Cookies.set('utm_source', utm_source, { expires: 30 })
     if(utm_medium) Cookies.set('utm_medium', utm_medium, { expires: 30 });
@@ -23,18 +45,18 @@ jQuery(document).ready(function($){
     if(utm_term) Cookies.set('utm_term', utm_term, { expires: 30 });
 
 
-    function setutm(utm_param, utm_val){
-        if (Cookies.get(utm_param) != undefined) {
-            jQuery('.'+utm_param).val('');
-            jQuery('.'+utm_param).val(Cookies.get(utm_param));
-            console.log(utm_param + " set from cookies");
+    function setutm(param, val){
+        if (Cookies.get(param) != undefined) {
+            jQuery('.gf_'+param).val('');
+            jQuery('.gf_'+param).val(Cookies.get(param));
+            console.log(param + " set from cookies");
         }else{
-            if(utm_val){
-                jQuery('.'+utm_param).val('');
-                jQuery('.'+utm_param).val(utm_val);
-                console.log(utm_param + " set from parameters");
+            if(val){
+                jQuery('.gf_'+param).val('');
+                jQuery('.gf_'+param).val(val);
+                console.log(param + " set from parameters");
             }else{
-                console.log(utm_param + " not set");
+                console.log(param + " not set");
             }
         }
     }
@@ -44,6 +66,7 @@ jQuery(document).ready(function($){
     setutm('utm_campaign',utm_campaign);
     setutm('utm_content',utm_content);
     setutm('utm_term',utm_term);
+    setutm('referrer',referrer);
 
    
 

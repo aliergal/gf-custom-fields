@@ -1,11 +1,11 @@
 <?php
 /**
-* Plugin Name: Gravity Forms Custom Fields
-* Description: Adds custom fields for the Gravity Forms plugin
-* Version: 1.1.1
+* Plugin Name: Gravity Forms - UTM Fields
+* Description: Adds UTM and referrer fields to the Gravity Form editor
+* Version: 1.1.2
 * Requires at least: 3.8
 * Tested up to: 6.0
-* Author URI: https://www.atom42.co.uk
+* Author URI: https://github.com/aliergal
 * Author: Atom42 - Ali Ergal.
 * Text Domain: gf-atom42
 * Domain Path: /languages/ 
@@ -13,6 +13,7 @@
 // Exit if accessed directly
 if( !defined( 'ABSPATH' ) ) exit;
 
+$plugin_dir = plugin_dir_path( __DIR__ );
 //Enqueue scripts and styles for the plugin
 function load_atom42_scripts($hook) {
  
@@ -30,3 +31,4 @@ add_action('wp_enqueue_scripts', 'load_atom42_scripts');
 
 //UTM Parameters custom field
 require_once('includes/fields/class-gf-field-utm.php');
+require_once('includes/fields/class-gf-field-referrer.php');
